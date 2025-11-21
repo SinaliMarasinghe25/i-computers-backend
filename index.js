@@ -4,9 +4,13 @@ import mongoose from "mongoose"
 import userRouter from "./routes/userRouter.js"
 import jwt from "jsonwebtoken"
 import productRouter from "./routes/productRouter.js"
+import cors from"cors";
+import dotenv from "dotenv"
+
+dotenv.config()
 
 
-const mongoURI="mongodb+srv://adminone:123@cluster0.xzkhzpz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const mongoURI=process.env.MONGO_URL;
 mongoose.connect(mongoURI).then(
     ()=>{
     console.log("Connected to MongoDB Cluster")
@@ -14,6 +18,10 @@ mongoose.connect(mongoURI).then(
 )
 
 const app =express()
+
+app.use(
+    cors({})
+)
 
 //middleware
 app.use(express.json())
@@ -30,7 +38,7 @@ if(authorizationheader !=null){
 
     console.log(token) //token without bearer because we dont need bearer if its there it wont decrypt
 
-    jwt.verify(token , "secretKey96$2025",
+    jwt.verify(token , process.env.JWT_SECRET,
     (error,content)=>{
 
         if(content == null){
@@ -98,6 +106,6 @@ next()  //function used to pass to next
    
 //connecting students department to main localhost:5000 or 3000
 
-app.use("/users", userRouter)  
-app.use("/products", productRouter) 
+app.use("/api/users", userRouter)  
+app.use("/api/products", productRouter) 
 app.listen( 3000, ()=>{console.log("server running")})
