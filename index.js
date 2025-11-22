@@ -34,16 +34,14 @@ const authorizationheader = req.header("Authorization")
 
 if(authorizationheader !=null){
 
-    const token = authorizationheader.replace("Bearer ", "")
-
-    console.log(token) //token without bearer because we dont need bearer if its there it wont decrypt
+    
 
     jwt.verify(token , process.env.JWT_SECRET,
     (error,content)=>{
 
         if(content == null){
             console.log("invalid token")
-            res.json({
+            res.status(401).json({
                             message : "invalid token"
                         })
 
