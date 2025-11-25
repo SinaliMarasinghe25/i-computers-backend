@@ -30,9 +30,13 @@ app.use(express.json())
 app.use((req,res,next)=>{
 
 //checking for token from authorization header
-const authorizationheader = req.header("Authorization")
+const authorizationHeader = req.header("Authorization")
 
-if(authorizationheader !=null){
+if(authorizationHeader !=null){
+
+ const token = authorizationHeader.replace("Bearer ", "");
+//                             ^ old      ^ new (empty string)
+
 
     
 
