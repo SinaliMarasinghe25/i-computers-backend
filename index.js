@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken"
 import productRouter from "./routes/productRouter.js"
 import cors from"cors";
 import dotenv from "dotenv"
+import orderRouter from "./routes/orderRouter.js"
 
 dotenv.config()
 
@@ -44,7 +45,7 @@ if(authorizationHeader !=null){
     (error,content)=>{
 
         if(content == null){
-            console.log("invalid token")
+           
             res.status(401).json({
                             message : "invalid token"
                         })
@@ -110,4 +111,5 @@ next()  //function used to pass to next
 
 app.use("/api/users", userRouter)  
 app.use("/api/products", productRouter) 
+app.use("/api/orders",orderRouter)
 app.listen( 3000, ()=>{console.log("server running")})
